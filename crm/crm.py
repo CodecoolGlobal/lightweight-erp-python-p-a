@@ -181,13 +181,7 @@ def update(table, id_):
 
 # special functions:
 # ------------------
-def quick(lst):
-    if len(lst) < 2:
-        return lst
-    pivot = lst[0]
-    l = quick([x for x in lst[1:] if x < pivot])
-    u = quick([x for x in lst[1:] if x >= pivot])
-    return l + [pivot] + u
+
 
 def get_longest_name_id(table):
     nList = []

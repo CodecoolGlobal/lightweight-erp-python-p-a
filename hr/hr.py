@@ -178,7 +178,6 @@ def update(table, id_):
 # ------------------
 
 def get_oldest_person(table):
-    table = data_manager.get_table_from_file("hr/persons.csv")
     bList = []
     oList = []
     for inList in table:
