@@ -21,8 +21,35 @@ def print_table(table, title_list):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
+    col_width = list()
 
-    # your goes code
+    for i, title in enumerate(title_list):
+        col_width.append(len(title))
+
+    for items in table:
+        for i, item in enumerate(items):
+            try:
+                if col_width[i] < len(str(item)):
+                    col_width[i] = len(str(item))
+            except:
+                col_width.append(len(item))
+
+    table_size = 1
+    for dash in col_width:
+        table_size += (dash + 3)
+
+    for i, title in enumerate(title_list):
+
+        print('{:{width}} |'.format(title, width=col_width[i]), end="")
+
+    print('\n' + '|' + ('-' * (table_size-7)) + '|')
+    
+    for items in table:
+        for i, item in enumerate(items):
+            if i == 0: 
+                print('|', end="")
+            print('{:{width}} |'.format(item, width=col_width[i]), end="")
+        print()
 
 
 def print_result(result, label):
@@ -32,12 +59,11 @@ def print_result(result, label):
     Args:
         result: result of the special function (string, list or dict)
         label (str): label of the result
-
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
 
-    # your code
+    print(label, ":", result)
 
 
 def print_menu(title, list_options, exit_message):
@@ -60,7 +86,12 @@ def print_menu(title, list_options, exit_message):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-
+    number = 1
+    print("\t", title)
+    for i in list_options:
+        print("\t\t ({})".format(number), i)
+        number += 1
+    print("\t\t (0)", exit_message)
     # your code
 
 
@@ -85,7 +116,10 @@ def get_inputs(list_labels, title):
     """
     inputs = []
 
-    # your code
+    print(title)
+    for element in list_labels:
+        x = input(element)
+        inputs.append(x)
 
     return inputs
 
@@ -101,4 +135,4 @@ def print_error_message(message):
         None: This function doesn't return anything it only prints to console.
     """
 
-    # your code
+    print(message)

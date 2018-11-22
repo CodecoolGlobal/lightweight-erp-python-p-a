@@ -3,6 +3,7 @@ implement commonly used functions here
 """
 
 import random
+import string
 
 
 def generate_random(table):
@@ -19,7 +20,17 @@ def generate_random(table):
     """
 
     generated = ''
-
-    # your code
-
+    minChar = 8
+    maxChar = 8
+    allChar = string.ascii_letters + string.punctuation + string.digits
+    generated = "".join(random.choice(allChar) for x in range(random.randint(minChar, maxChar)))
     return generated
+
+
+def create_dict(table):
+    my_dict = {}
+    for t in table:
+        my_dict.setdefault(t[0], []).append(t[1:])
+    return my_dict
+
+

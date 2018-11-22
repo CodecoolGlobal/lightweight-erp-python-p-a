@@ -27,7 +27,39 @@ def start_module():
         None
     """
 
-    # your code
+    table = data_manager.get_table_from_file("crm/customers.csv")
+    table_title = ["id", "name", "email", "subscribed"]
+
+    list_options = ["Show table",
+                    "Add person",
+                    "Remove person",
+                    "Update table",
+                    "Get ID of the person with the longest name",
+                    "Get list of subscribers email addresses"]
+
+    ui.print_menu("CRM module menu:", list_options, "Exit program")
+    while True:
+        option = ui.get_inputs(["Please enter a number"], "")
+        if option[0] == "1":
+            show_table(table)
+        elif option[0] == "2":
+            table = add(table)
+        elif option[0] == "3":
+            id_ = ui.get_inputs(["ID: "], "Please type ID to remove: ")[0]
+            table = remove(table, id_)
+        elif option[0] == "4":
+            id_ = ui.get_inputs(["ID: "], "Please type ID to update: ")[0]
+            table = update(table, id_)
+        elif option[0] == "5":
+            result = get_longest_name_id(table)
+            ui.print_result(result, "Printing the ID of the person with the longest name")
+        elif option[0] == "6":
+            result = get_subscribed_emails(table)
+            ui.print_result(result, "Printing a list with the name and email addresses of the subscribers")
+        elif option[0] == "0":
+            exit()
+        else:
+            ui.print_error_message("No such an option!")
 
 
 def show_table(table):
@@ -40,8 +72,9 @@ def show_table(table):
     Returns:
         None
     """
-
-    # your code
+    title_list = ["id", "name", "email", "subscribed"]
+    table = data_manager.get_table_from_file("crm/customers.csv")
+    ui.print_table(table, title_list)
 
 
 def add(table):
@@ -55,8 +88,16 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
-
+    list_labels = ["name: ", "email: ", "subscribed: "]
+    wanna_stay = True
+    while wanna_stay:
+        new_product = ui.get_inputs(list_labels, "Please provide new information")
+        new_product.insert(0, common.generate_random(table))
+        table.append(new_product)
+        next_step = ui.get_inputs([""], "Press 0 to save & exit or 1 to add another person.")[0]
+        if next_step == "0":
+            data_manager.write_table_to_file("crm/customers.csv", table)
+            wanna_stay = False
     return table
 
 
@@ -72,8 +113,24 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
-
+    wanna_stay = True
+    current_iterates = 0
+    max_iterates = len(table)
+    while wanna_stay:
+        for i, v in enumerate(table):
+            if v[0] == id_:
+                table.remove(table[i])
+            elif v[0] != id_ and current_iterates < max_iterates:
+                current_iterates += 1
+            else:
+                ui.print_error_message("There is nothing with the given ID!")
+        next_step = ui.get_inputs([""], "Press 0 to exit or 1 to remove another person.")[0]
+        if next_step == '0':
+            data_manager.write_table_to_file("crm/customers.csv", table)
+            wanna_stay = False
+        else:
+            id_ = ui.get_inputs(["Please type ID to remove: "], "\n")[0]
+            continue
     return table
 
 
@@ -89,7 +146,35 @@ def update(table, id_):
         list: table with updated record
     """
 
-    # your code
+    wanna_stay = True
+    current_iterates = 0
+    max_iterates = len(table)
+    while wanna_stay:
+        for i, v in enumerate(table):
+            if v[0] == id_:
+                first_step = ui.get_inputs([""], "Please specify, what would you like to change at the given index? (name, email, subscription)")[0]
+                if first_step == "name":
+                    new_name = ui.get_inputs([""], "Please give a new name!")
+                    v[1] = new_name[0]
+                elif first_step == "email":
+                    new_email = ui.get_inputs([""], "Please give a new email address!")
+                    v[2] = new_email[0]
+                elif first_step == "subscription":
+                    new_subscription = ui.get_inputs([""], "Please give a new subscription option! (0 for NOT subscribed and 1 for subscribed")
+                    v[3] = new_subscription[0]
+                else:
+                    ui.print_error_message("There's no such an option!")
+            elif v[0] != id_ and current_iterates < max_iterates:
+                current_iterates += 1
+            else:
+                ui.print_error_message("You can't add an item because of some reasons!")
+        last_step = ui.get_inputs([""], "Press 0 to exit or 1 to update another item.")[0]
+        if last_step == '0':
+            data_manager.write_table_to_file("crm/customers.csv", table)
+            wanna_stay = False
+        else:
+            id_ = ui.get_inputs(["Please type an ID to update the item at the given ID: "], "\n")[0]
+            continue
 
     return table
 
@@ -98,31 +183,30 @@ def update(table, id_):
 # ------------------
 
 def get_longest_name_id(table):
-    """
-        Question: What is the id of the customer with the longest name?
-
-        Args:
-            table (list): data table to work on
-
-        Returns:
-            string: id of the longest name (if there are more than one, return
-                the last by alphabetical order of the names)
-        """
-
-    # your code
-
+    table = data_manager.get_table_from_file("crm/customers.csv")
+    nList = []
+    lList = []
+    for inList in table:
+        nList.append(inList[1])
+    for i in range(0, len(nList)):
+        lList.append(len(nList[i]))
+    maxLen = 0
+    for num in lList:
+        if maxLen < num:
+            maxLen = num
+    for inList in table:
+        if maxLen == len(inList[1]):
+            result = inList[0]
+            return result
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
+
+
 def get_subscribed_emails(table):
-    """
-        Question: Which customers has subscribed to the newsletter?
-
-        Args:
-            table (list): data table to work on
-
-        Returns:
-            list: list of strings (where a string is like "email;name")
-        """
-
-    # your code
+    table = data_manager.get_table_from_file("crm/customers.csv")
+    result = []
+    for inList in table:
+        if inList[3] == "1":
+            result += inList[2], inList[1]
+    return result
