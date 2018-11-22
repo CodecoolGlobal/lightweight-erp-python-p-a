@@ -203,16 +203,17 @@ def which_year_max(table):
             maxProfit = num
     for inList in table:
         if inList[5] == maxProfit:
-            result = inList[3]
+            result = int(inList[3])
             return result
 
 
 def avg_amount(table, year):
+    stringYear = str(year)
     yList = []
     iList = []
     oList = []
     for inList in table:
-        if year in inList[3]:
+        if stringYear in inList[3]:
             yList.append(inList)
     for inList in yList:
         if inList[4] == "in":
@@ -228,4 +229,4 @@ def avg_amount(table, year):
     for i in range(0, len(oList)):
         sumOutcome += oList[i]
     result = (sumIncome-sumOutcome)/len(yList)
-    return result, year
+    return result

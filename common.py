@@ -30,7 +30,5 @@ def generate_random(table):
 def create_dict(table):
     my_dict = {}
     for t in table:
-        my_dict.setdefault(t[0], []).append(t[1:])
+        my_dict.setdefault(t[2], []).append(t[1:3])
     return my_dict
-
-

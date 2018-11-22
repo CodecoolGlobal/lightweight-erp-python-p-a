@@ -37,9 +37,9 @@ def print_table(table, title_list):
     table_size = 1
     for dash in col_width:
         table_size += (dash + 3)
-
+    print("|", end="")
     for i, title in enumerate(title_list):
-
+        
         print('{:{width}} |'.format(title, width=col_width[i]), end="")
 
     print('\n' + '|' + ('-' * (table_size-7)) + '|')

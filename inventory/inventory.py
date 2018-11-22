@@ -16,7 +16,7 @@ import ui
 import data_manager
 # common module
 import common
-
+import datetime
 
 def start_module():
     """
@@ -54,7 +54,8 @@ def start_module():
         elif option[0] == "5":
             pass
         elif option[0] == "6":
-            pass
+            result = get_average_durability_by_manufacturers(table)
+            ui.print_result(result, "Printing the average durability by manufacturers")
         elif option[0] == "0":
             exit()
         else:
@@ -185,6 +186,14 @@ def update(table, id_):
 # special functions:
 # ------------------
 
+
+def create_dict(table):
+    my_dict = {}
+    for t in table:
+        my_dict.setdefault(t[2], []).append(t[4:5])
+    return my_dict
+
+
 def get_available_items(table):
     """
     Question: Which items have not exceeded their durability yet?
@@ -196,7 +205,11 @@ def get_available_items(table):
         list: list of lists (the inner list contains the whole row with their actual data types)
     """
 
-    # your code
+    avList = []
+    now = datetime.datetime.now()
+    for inList in table:
+        if int(inList[3]) + int(inList[4]) > now.year:
+            avList.append(inList)
 
 
 def get_average_durability_by_manufacturers(table):
@@ -210,4 +223,10 @@ def get_average_durability_by_manufacturers(table):
         dict: a dictionary with this structure: { [manufacturer] : [avg] }
     """
 
-    # your code
+    table_dict = create_dict(table)
+    
+    new_dict = {}
+    for k in table_dict:
+        new_dict[k] = len(table_dict[k])
+    for in_list in table_dict.values():
+        return new_dict

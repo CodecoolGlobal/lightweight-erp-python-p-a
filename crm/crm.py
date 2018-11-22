@@ -181,11 +181,20 @@ def update(table, id_):
 
 # special functions:
 # ------------------
+def quick(lst):
+    if len(lst) < 2:
+        return lst
+    pivot = lst[0]
+    l = quick([x for x in lst[1:] if x < pivot])
+    u = quick([x for x in lst[1:] if x >= pivot])
+    return l + [pivot] + u
 
 def get_longest_name_id(table):
-    table = data_manager.get_table_from_file("crm/customers.csv")
     nList = []
     lList = []
+    name = []
+    possible_results = []
+    a = []
     for inList in table:
         nList.append(inList[1])
     for i in range(0, len(nList)):
@@ -196,17 +205,27 @@ def get_longest_name_id(table):
             maxLen = num
     for inList in table:
         if maxLen == len(inList[1]):
-            result = inList[0]
-            return result
+            possible_results.append(inList[0])
+            name.append(inList[1])
+            a.append((inList[1], inList[0]))
+    n = len(a)
+    for i in range(n):
+        for j in range(n-1-i):
+            if a[j] < a[j+1]:
+                a[j], a[j+1] = a[j+1], a[j]
+    result = a[0][1]
+    return result
+
 
 # the question: Which customers has subscribed to the newsletter?
 # return type: list of strings (where string is like email+separator+name, separator=";")
 
 
 def get_subscribed_emails(table):
-    table = data_manager.get_table_from_file("crm/customers.csv")
     result = []
+    separator = ";"
     for inList in table:
         if inList[3] == "1":
-            result += inList[2], inList[1]
+            a = ''.join([inList[2], separator, inList[1]])
+            result.append(a)
     return result

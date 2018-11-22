@@ -51,9 +51,11 @@ def start_module():
             id_ = ui.get_inputs(["ID: "], "Please type ID to update: ")[0]
             table = update(table, id_)
         elif option[0] == "5":
-            pass
+            result = get_counts_by_manufacturers(table)
+            ui.print_result(result, "Printing the number of games by manufacturers")
         elif option[0] == "6":
-            pass
+            result = get_average_by_manufacturer(table, "Ensemble Studios")
+            ui.print_result(result, "Printing the number of games by manufacturers")
         elif option[0] == "0":
             exit()
         else:
@@ -183,6 +185,14 @@ def update(table, id_):
 # special functions:
 # ------------------
 
+
+def create_dict(table):
+    my_dict = {}
+    for t in table:
+        my_dict.setdefault(t[2], []).append(t[1:3])
+    return my_dict
+
+
 def get_counts_by_manufacturers(table):
     """
     Question: How many different kinds of game are available of each manufacturer?
@@ -193,8 +203,11 @@ def get_counts_by_manufacturers(table):
     Returns:
          dict: A dictionary with this structure: { [manufacturer] : [count] }
     """
-
-    # your code
+    table_dict = create_dict(table)
+    new_dict = {}
+    for k in table_dict:
+        new_dict[k] = len(table_dict[k])
+    return new_dict
 
 
 def get_average_by_manufacturer(table, manufacturer):
@@ -208,5 +221,11 @@ def get_average_by_manufacturer(table, manufacturer):
     Returns:
          number
     """
-
-    # your code
+    sList = []
+    for inList in table:
+        if inList[2] == manufacturer:
+            sList.append(inList[4])
+    sumStore = 0
+    for i in range(0, len(sList)):
+        sumStore += int(sList[i])
+    return sumStore/len(sList)

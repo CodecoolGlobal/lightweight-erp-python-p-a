@@ -50,7 +50,8 @@ def start_module():
             id_ = ui.get_inputs(["ID: "], "Please type ID to update: ")[0]
             table = update(table, id_)
         elif option[0] == "5":
-            pass
+            result = get_oldest_person(table)
+            ui.print_result(result, "Printing the average durability by manufacturers")
         elif option[0] == "6":
             pass
         elif option[0] == "0":
@@ -177,17 +178,19 @@ def update(table, id_):
 # ------------------
 
 def get_oldest_person(table):
-    """
-    Question: Who is the oldest person?
-
-    Args:
-        table (list): data table to work on
-
-    Returns:
-        list: A list of strings (name or names if there are two more with the same value)
-    """
-
-    # your code
+    table = data_manager.get_table_from_file("hr/persons.csv")
+    bList = []
+    oList = []
+    for inList in table:
+        bList.append(inList[2])
+    oldPerson = bList[0]
+    for num in bList:
+        if num < oldPerson:
+            oldPerson = num
+    for inList in table:
+        if oldPerson in inList:
+            oList.append(inList[1])
+            return oList
 
 
 def get_persons_closest_to_average(table):
