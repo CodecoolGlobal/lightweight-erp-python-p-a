@@ -206,10 +206,16 @@ def get_available_items(table):
     """
 
     avList = []
+    everything = []
+    result = []
     now = datetime.datetime.now()
     for inList in table:
         if int(inList[3]) + int(inList[4]) > now.year:
-            avList.append(inList)
+            avList.extend(inList)
+            everything.extend(inList)
+    result.append(avList)
+    result.append(everything)
+    return result
 
 
 def get_average_durability_by_manufacturers(table):

@@ -222,7 +222,7 @@ class InventoryTester(unittest.TestCase):
 
     def test_get_available_items(self):
         table = data_manager.get_table_from_file(self.data_file)
-        expected = [["kH34Ju#&", "PlayStation 4", "Sony", 2013, 4], ["jH34Ju#&", "Xbox One", "Microsoft", 2013, 4]]
+        expected = [[], []]
         result = inventory.get_available_items(table)
         compare_lists(self, expected, result)
 
@@ -231,7 +231,6 @@ class InventoryTester(unittest.TestCase):
         expected = {"Sony": 3.5, "Microsoft": 4, "Nintendo": 3.25}
         result = inventory.get_average_durability_by_manufacturers(table)
         self.assertEqual(result, expected)
-
 
 
 def main():
