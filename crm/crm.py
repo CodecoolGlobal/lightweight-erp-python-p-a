@@ -223,3 +223,38 @@ def get_subscribed_emails(table):
             a = ''.join([inList[2], separator, inList[1]])
             result.append(a)
     return result
+    # your code
+
+
+# functions supports data analyser
+# --------------------------------
+
+
+def get_name_by_id(id):
+    """
+    Reads the table with the help of the data_manager module.
+    Returns the name (str) of the customer with the given id (str) on None om case of non-existing id.
+
+    Args:
+        id (str): the id of the customer
+
+    Returns:
+        str: the name of the customer
+    """
+
+    # your code
+
+
+def get_name_by_id_from_table(table, id):
+    """
+    Returns the name (str) of the customer with the given id (str) on None om case of non-existing id.
+
+    Args:
+        table (list of lists): the customer table
+        id (str): the id of the customer
+
+    Returns:
+        str: the name of the customer
+    """
+
+    # your code
