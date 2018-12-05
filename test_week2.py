@@ -59,7 +59,6 @@ class Week2SalesTester(unittest.TestCase):
         expected = "kH34Ju#&"
         self.assertEqual(result, expected)
 
-
     def test_week2_sales_get_the_sum_of_prices(self):
         item_ids = ["kH34Ju#&", "jH34Ju#&", "tH34Ju#&", "eH34Ju#&"]
         result = sales.get_the_sum_of_prices(item_ids)

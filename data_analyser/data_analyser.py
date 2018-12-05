@@ -6,8 +6,6 @@ Avoud using the database (ie. .csv files) of other modules directly.
 Use the functions of the modules instead.
 """
 
-# todo: importing everything you need
-
 # importing everything you need
 import ui
 import common
@@ -24,10 +22,32 @@ def start_module():
     Returns:
         None
     """
+    list_options = ["Get last buyers name",
+                    "Get last buyers ID",
+                    "Get the name of the person, who spent the most and the amount he/she spent",
+                    "Get the ID of the person, who spent the most and the amount he/she spent",
+                    "Get the most frequent buyers name",
+                    "Get the most frequent buyers ID"]
 
-    # your code
-
-    pass
+    ui.print_menu("Data Analyser Module menu:", list_options, "Exit program")
+    while True:
+        option = ui.get_inputs(["Please enter a number"], "")
+        if option[0] == "1":
+            get_the_last_buyer_name()
+        elif option[0] == "2":
+            get_the_last_buyer_id()
+        elif option[0] == "3":
+            get_the_buyer_name_spent_most_and_the_money_spent()
+        elif option[0] == "4":
+            get_the_buyer_id_spent_most_and_the_money_spent()
+        elif option[0] == "5":
+            get_the_most_frequent_buyers_names()
+        elif option[0] == "6":
+            get_the_most_frequent_buyers_ids()
+        elif option[0] == "0":
+            exit()
+        else:
+            ui.print_error_message("No such an option!")
 
 
 def get_the_last_buyer_name():

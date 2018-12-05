@@ -10,6 +10,8 @@ Data table structure:
 
 # everything you'll need is imported:
 # User interface module
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import ui
 # data manager module
 import data_manager
@@ -35,7 +37,9 @@ def start_module():
                     "Remove person",
                     "Update table",
                     "Get ID of the person with the longest name",
-                    "Get list of subscribers email addresses"]
+                    "Get list of subscribers email addresses",
+                    "Get name by ID",
+                    "Get name by ID from table"]
 
     ui.print_menu("CRM module menu:", list_options, "Exit program")
     while True:
@@ -56,6 +60,14 @@ def start_module():
         elif option[0] == "6":
             result = get_subscribed_emails(table)
             ui.print_result(result, "Printing a list with the name and email addresses of the subscribers")
+        elif option[0] == "7":
+            id = ui.get_inputs(["ID: "], "Please type ID to get the name: ")[""]
+            result = get_name_by_id(id)
+            ui.print_result(result, "Printing the name for the given ID")
+        elif option[0] == "8":
+            id = ui.get_inputs(["ID: "], "Please type ID to get the name: ")
+            result = get_name_by_id(id)
+            ui.print_result(result, "Printing the name for the given ID")[""]
         elif option[0] == "0":
             exit()
         else:
@@ -242,7 +254,11 @@ def get_name_by_id(id):
         str: the name of the customer
     """
 
-    # your code
+    table = data_manager.get_table_from_file("crm/customers.csv")
+    for row in table:
+        if id == row[0]:
+            return row[1]
+    return None
 
 
 def get_name_by_id_from_table(table, id):
@@ -257,4 +273,7 @@ def get_name_by_id_from_table(table, id):
         str: the name of the customer
     """
 
-    # your code
+    for row in table:
+        if id in row[0]:
+            return row[1]
+    return None

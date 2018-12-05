@@ -202,5 +202,32 @@ def get_persons_closest_to_average(table):
     Returns:
         list: list of strings (name or names if there are two more with the same value)
     """
+    yList = []
+    absList = []
+    names = []
+    for inList in table:
+        yInt = int(inList[2])
+        yList.append(yInt)
 
-    
+    yMax = 0
+    for i in range(0,len(yList)):
+        yMax += yList[i]
+    yAvg = yMax/len(yList)
+
+    for year in yList:
+        absList.append(abs(year-yAvg))
+    minNumber = absList[0]
+
+    for number in absList:
+        if number < minNumber:
+            minNumber = number
+
+    index = 0
+    for num in absList:
+        if num == minNumber:
+            break
+        index += 1
+    for name in table:
+        if name[1] == table[index][1]:
+            names.append(name[1])
+    return names
