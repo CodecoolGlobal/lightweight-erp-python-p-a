@@ -33,17 +33,23 @@ def start_module():
     while True:
         option = ui.get_inputs(["Please enter a number"], "")
         if option[0] == "1":
-            get_the_last_buyer_name()
+            result = get_the_last_buyer_name()
+            ui.print_result(result, "The last buyers name")
         elif option[0] == "2":
-            get_the_last_buyer_id()
+            result = get_the_last_buyer_id()
+            ui.print_result(result, "The last buyers ID")
         elif option[0] == "3":
-            get_the_buyer_name_spent_most_and_the_money_spent()
+            result = get_the_buyer_name_spent_most_and_the_money_spent()
+            ui.print_result(result, "The buyers name, who spent the most money and the amount he/she spent")
         elif option[0] == "4":
-            get_the_buyer_id_spent_most_and_the_money_spent()
+            result = get_the_buyer_id_spent_most_and_the_money_spent()
+            ui.print_result(result, "The buyers ID, who spent the most money and the amount he/she spent")
         elif option[0] == "5":
-            get_the_most_frequent_buyers_names()
+            result = get_the_most_frequent_buyers_names()
+            ui.print_result(result, "The most frequent buyers name")
         elif option[0] == "6":
-            get_the_most_frequent_buyers_ids()
+            result = get_the_most_frequent_buyers_ids()
+            ui.print_result(result, "The most frequent buyers ID")
         elif option[0] == "0":
             exit()
         else:

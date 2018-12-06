@@ -66,7 +66,8 @@ def start_module():
             result = get_lowest_price_item_id(table)
             ui.print_result(result, "Printing the number of games by manufacturers")
         elif option[0] == "6":
-            pass
+            result = get_items_sold_between(table, 3, 14, 2016, 8, 10, 2016)
+            ui.print_result(result, "Items sold between the given dates")
         elif option[0] == "0":
             exit()
         else:
@@ -242,12 +243,41 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     Returns:
         list: list of lists (the filtered table)
     """
+    year_from = str(year_from)
+    month_from = str(month_from)
+    day_from = str(day_from)
+    if len(month_from) == 1:
+        month_from = str(0) + month_from
+    if len(day_from) == 1:
+        day_from = str(0) + day_from
+    from_date = str(year_from) + str(month_from) + str(day_from)
+    year_to = str(year_to)
+    month_to = str(month_to)
+    day_to = str(day_to)
+    if len(month_to) == 1:
+        month_to = str(0) + month_to
+    if len(day_to) == 1:
+        day_to = str(0) + day_to
+    to_date = str(year_to) + str(month_to) + str(day_to)
+    sale_date = ""
+    updated_table = []
+    for items in table:
+        if len(items[3]) == 1:
+            items[3] = str(0) + items[3]
+        if len(items[4]) == 1:
+            items[4] = str(0) + items[4]
+        sale_date = items[5] + items[3] + items[4]
+        if from_date < sale_date < to_date:
+            items[2] = int(items[2])
+            items[3] = int(items[3])
+            items[4] = int(items[4])
+            items[5] = int(items[5])
+            updated_table.append(items[:-1])
+    return updated_table
 
 
 # functions supports data analyser
 # --------------------------------
-
-
 def get_title_by_id(id):
 
     """

@@ -18,6 +18,7 @@ import data_manager
 import common
 import datetime
 
+
 def start_module():
     """
     Starts this module and displays its menu.
@@ -52,7 +53,8 @@ def start_module():
             id_ = ui.get_inputs(["ID: "], "Please type ID to update: ")[0]
             table = update(table, id_)
         elif option[0] == "5":
-            pass
+            result = get_available_items(table)
+            ui.print_result(result, "The not expired items are")
         elif option[0] == "6":
             result = get_average_durability_by_manufacturers(table)
             ui.print_result(result, "Printing the average durability by manufacturers")
@@ -219,7 +221,7 @@ def get_available_items(table):
 
 
 def get_add(list):
-    sum = 0 
+    sum = 0
     for items in list:
         sum += items
     return sum
