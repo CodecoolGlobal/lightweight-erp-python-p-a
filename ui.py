@@ -63,7 +63,7 @@ def print_result(result, label):
         None: This function doesn't return anything it only prints to console.
     """
 
-    print(label, ":", result)
+    print(label, ":\n", result)
 
 
 def print_menu(title, list_options, exit_message):

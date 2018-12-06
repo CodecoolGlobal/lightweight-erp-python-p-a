@@ -57,8 +57,10 @@ def get_the_last_buyer_name():
     Returns:
         str: Customer name of the last buyer
     """
-
-    # your code
+    last_sale_id = sales.get_item_id_sold_last()
+    last_buyer_id = sales.get_customer_id_by_sale_id(last_sale_id)
+    last_buyer_name = crm.get_name_by_id(last_buyer_id)
+    return last_buyer_name
 
 
 def get_the_last_buyer_id():
@@ -68,8 +70,9 @@ def get_the_last_buyer_id():
     Returns:
         str: Customer id of the last buyer
     """
-
-    # your code
+    last_sale_id = sales.get_item_id_sold_last()
+    last_buyer_id = sales.get_customer_id_by_sale_id(last_sale_id)
+    return last_buyer_id
 
 
 def get_the_buyer_name_spent_most_and_the_money_spent():
@@ -79,8 +82,15 @@ def get_the_buyer_name_spent_most_and_the_money_spent():
     Returns:
         tuple: Tuple of customer name and the sum the customer spent eg.: ('Daniele Coach', 42)
     """
-
-    # your code
+    names = sales.get_all_sales_ids_for_customer_ids()
+    new_dict = {}
+    for key, values in names.items():
+        new_dict.update({crm.get_name_by_id(key): sales.get_the_sum_of_prices(values)})
+    valami = []
+    for key, values in new_dict.items():
+        valami.append((key, values))
+    result = valami[0]
+    return result
 
 
 def get_the_buyer_id_spent_most_and_the_money_spent():
@@ -91,7 +101,15 @@ def get_the_buyer_id_spent_most_and_the_money_spent():
         tuple: Tuple of customer id and the sum the customer spent eg.: (aH34Jq#&, 42)
     """
 
-    # your code
+    names = sales.get_all_sales_ids_for_customer_ids()
+    new_dict = {}
+    for key, values in names.items():
+        new_dict.update({key: sales.get_the_sum_of_prices(values)})
+    valami = []
+    for key, values in new_dict.items():
+        valami.append((key, values))
+    result = valami[0]
+    return result
 
 
 def get_the_most_frequent_buyers_names(num=1):
@@ -107,7 +125,12 @@ def get_the_most_frequent_buyers_names(num=1):
             The first one bought the most frequent. eg.: [('Genoveva Dingess', 8), ('Missy Stoney', 3)]
     """
 
-    # your code
+    names = sales.get_num_of_sales_per_customer_ids()
+    new_dict = {}
+    for key, values in names.items():
+        new_dict.update({crm.get_name_by_id(key): values})
+    new_list = list(new_dict.items())
+    return new_list[:num]
 
 
 def get_the_most_frequent_buyers_ids(num=1):
@@ -123,4 +146,9 @@ def get_the_most_frequent_buyers_ids(num=1):
             The first one bought the most frequent. eg.: [(aH34Jq#&, 8), (bH34Jq#&, 3)]
     """
 
-    # your code
+    names = sales.get_num_of_sales_per_customer_ids()
+    new_dict = {}
+    for key, values in names.items():
+        new_dict.update({key: values})
+    new_list = list(new_dict.items())
+    return new_list[:num]

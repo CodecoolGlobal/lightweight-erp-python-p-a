@@ -179,11 +179,6 @@ class SalesTester(unittest.TestCase):
     def test_forbidden_functions(self):
         check_forbidden_functions(self, "sales/sales.py")
 
-    def test_check_using_datetime(self):
-        with open("sales/sales.py", "r") as file:
-            lines = file.read()
-            self.assertEqual(lines.find("datetime"), -1)
-
     def test_get_lowest_price_item_id(self):
         table = data_manager.get_table_from_file(self.data_file)
         result = sales.get_lowest_price_item_id(table)

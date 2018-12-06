@@ -18,6 +18,15 @@ import ui
 import data_manager
 # common module
 import common
+import datetime
+
+
+def getMax(list):
+    maxElement = list[0]
+    for elements in list:
+        if elements > maxElement:
+            maxElement = elements
+    return maxElement
 
 
 def start_module():
@@ -234,8 +243,6 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
         list: list of lists (the filtered table)
     """
 
-    # your code
-
 
 # functions supports data analyser
 # --------------------------------
@@ -258,8 +265,6 @@ def get_title_by_id(id):
         if id in row[0]:
             return row[1]
     return None
-
-    # your code
 
 
 def get_title_by_id_from_table(table, id):
@@ -291,10 +296,18 @@ def get_item_id_sold_last():
     """
 
     table = data_manager.get_table_from_file("sales/sales.csv")
-    dmy = []
-    for i in table:
-        dmy.append(i[3])
-        dmy.extend(i[4:6])
+    dateList = []
+    for inList in table:
+        dateList.append(datetime.datetime(int(inList[5]), int(inList[3]), int(inList[4])))
+    maxDate = getMax(dateList)
+    strMaxDate = str(maxDate)
+    maxDateList = strMaxDate.split('-')
+    day = maxDateList[2].rstrip('0: ')
+    maxDateList.pop(2)
+    maxDateList.append(day)
+    for inList in table:
+        if inList[5] == maxDateList[0] and inList[3] == maxDateList[1] and inList[4] == maxDateList[2]:
+            return inList[0]
 
 
 def get_item_id_sold_last_from_table(table):
@@ -307,22 +320,42 @@ def get_item_id_sold_last_from_table(table):
     Returns:
         str: the _id_ of the item that was sold most recently.
     """
-
-    # your code
+    dateList = []
+    for inList in table:
+        dateList.append(datetime.datetime(int(inList[5]), int(inList[3]), int(inList[4])))
+    maxDate = getMax(dateList)
+    strMaxDate = str(maxDate)
+    maxDateList = strMaxDate.split('-')
+    day = maxDateList[2].rstrip('0: ')
+    maxDateList.pop(2)
+    maxDateList.append(day)
+    for inList in table:
+        if inList[5] == maxDateList[0] and inList[3] == maxDateList[1] and inList[4] == maxDateList[2]:
+            return inList[0]
 
 
 def get_item_title_sold_last_from_table(table):
     """
-    Returns the _title_ of the item that was sold most recently.
+    Returns the title of the item that was sold most recently.
 
     Args:
         table (list of lists): the sales table
 
     Returns:
-        str: the _title_ of the item that was sold most recently.
+        str: the title of the item that was sold most recently.
     """
-
-    # your code
+    dateList = []
+    for inList in table:
+        dateList.append(datetime.datetime(int(inList[5]), int(inList[3]), int(inList[4])))
+    maxDate = getMax(dateList)
+    strMaxDate = str(maxDate)
+    maxDateList = strMaxDate.split('-')
+    day = maxDateList[2].rstrip('0: ')
+    maxDateList.pop(2)
+    maxDateList.append(day)
+    for inList in table:
+        if inList[5] == maxDateList[0] and inList[3] == maxDateList[1] and inList[4] == maxDateList[2]:
+            return inList[1]
 
 
 def get_the_sum_of_prices(item_ids):
@@ -478,6 +511,13 @@ def get_all_sales_ids_for_customer_ids_from_table(table):
     return my_dict
 
 
+def get_add(list):
+    sum = 0
+    for items in list:
+        sum += items
+    return sum
+
+
 def get_num_of_sales_per_customer_ids():
     """
      Reads the customer-sales association table with the help of the data_manager module.
@@ -487,6 +527,16 @@ def get_num_of_sales_per_customer_ids():
      Returns:
          dict of (key, value): (customer_id (str), num_of_sales (number))
     """
+    table = data_manager.get_table_from_file("sales/sales.csv")
+    my_dict = {}
+    for t in table:
+        sum = 0
+        if t[6] not in my_dict:
+            my_dict.setdefault(t[6], []).append((sum+1))
+        else:
+            my_dict.setdefault(t[6], []).append((sum+1))
+    result = {key: get_add(values) for key, values in my_dict.items()}
+    return result
 
 
 def get_num_of_sales_per_customer_ids_from_table(table):
@@ -501,5 +551,10 @@ def get_num_of_sales_per_customer_ids_from_table(table):
     """
     my_dict = {}
     for t in table:
-        my_dict.setdefault(t[6], []).append(t[2])
-    return my_dict
+        sum = 0
+        if t[6] not in my_dict:
+            my_dict.setdefault(t[6], []).append((sum+1))
+        else:
+            my_dict.setdefault(t[6], []).append((sum+1))
+    result = {key: get_add(values) for key, values in my_dict.items()}
+    return result

@@ -218,6 +218,13 @@ def get_available_items(table):
     return result
 
 
+def get_add(list):
+    sum = 0 
+    for items in list:
+        sum += items
+    return sum
+
+
 def get_average_durability_by_manufacturers(table):
     """
     Question: What are the average durability times for each manufacturer?
@@ -228,11 +235,8 @@ def get_average_durability_by_manufacturers(table):
     Returns:
         dict: a dictionary with this structure: { [manufacturer] : [avg] }
     """
-
-    table_dict = create_dict(table)
-    
     new_dict = {}
-    for k in table_dict:
-        new_dict[k] = len(table_dict[k])
-    for in_list in table_dict.values():
-        return new_dict
+    for line in table:
+        new_dict.setdefault(line[2], []).append(int(line[4]))
+    result = {key: get_add(values)/len(values) for key, values in new_dict.items()}
+    return result
